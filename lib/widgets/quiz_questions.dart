@@ -7,6 +7,7 @@ import 'package:html_character_entities/html_character_entities.dart';
 import '../controller/quiz/quiz_controller.dart';
 import '../controller/quiz/quiz_state.dart';
 import '../models/question_model.dart';
+import 'answer_card.dart';
 
 class QuizQuestions extends StatelessWidget {
   final PageController pageController;
@@ -49,6 +50,28 @@ class QuizQuestions extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+            ),
+            Divider(
+              color: Colors.grey[200],
+              height: 32,
+              thickness: 2,
+              indent: 20,
+              endIndent: 20,
+            ),
+            Column(
+              children: question.answers
+                  .map(
+                    (e) => AnswerCard(
+                      answer: e,
+                      isSelected: e == state.selectedAnswer,
+                      isCorrect: e == state.correct,
+                      isDisplayingAnswer: state.answered,
+                      onTap: () => context
+                          .read(quizControllerProvider)
+                          .submitAnswer(question, e),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
         );
